@@ -1,8 +1,9 @@
-sudo systemctl status kibana.service
 sudo systemctl start elasticsearch.service
-
+sudo systemctl start kibana.service
 elasticsearch: http://localhost:9200/
 kibana: http://localhost:5601/app/dev_tools#/console
+
+---------------------------------------------------------------------------
 
 --------------------------- Security autoconfiguration information ------------------------------
 
