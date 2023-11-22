@@ -1,0 +1,139 @@
+curl -X GET http://localhost:9200
+curl -X GET https://localhost:9200 -- > Won't work locally
+
+GET /_cluster/health
+
+------------------------------------------------------------
+DELETE /products
+
+PUT /products
+{
+  "settings": {
+    
+       "number_of_shards": 2,
+       "number_of_replicas": 2
+  }
+}
+
+--- Insert
+POST /products/_doc
+{
+  "name": "Coffe Maker",
+  "price": 49,
+  "in_stock": 4
+}
+
+PUT /products/_doc/101
+{
+  "name": "Spring",
+  "price": 55,
+  "in_stock": 44
+}
+
+--+++++ Retrive
+GET /products/_doc/100
+
+GET /products/_search
+{
+  "size": 1
+}
+
+
+POST /products/_search
+{
+  "size": 100,
+  "scroll": "1m",  # Specify the keep-alive time
+  "query": {
+    "match_all": {}
+  }
+}
+
+
+-- Updating
+POST /products/_update/100
+{
+  "doc": {
+    "in_stock":90
+  }
+}
+-- Added new field
+POST /products/_update/100
+{
+  "doc": {
+    "tags": [
+         "electronics"
+      ]
+  }
+}
+-- Scripted updates
+POST /products/_update/100
+{
+  "script": {
+    "source": "ctx._source.in_stock++"
+  }
+}
+
+--- Upsert
+
+POST /products/_update/102
+{
+  "script": {
+    "source": "ctx._source.in_stock++"
+  },
+  "upsert": {
+    "name": "Blender",
+    "price": 88,
+    "in_stock": 5
+  }
+}
+----- DELETE Doc
+DELETE /products/_doc/101
+
+POST /products/_delete_by_query
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+--------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
