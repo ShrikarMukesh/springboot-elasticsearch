@@ -1,0 +1,50 @@
+sudo /path/to/logstash/bin/logstash -f /path/to/mysql_to_elasticsearch.conf
+
+GET /employees_index/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+----------------------------------------
+GET /employees_index/_search
+{
+  "query": {
+    "match": {
+      "name": "John"
+    }
+  }
+}
+GET /employees_index/_search
+{
+  "query": {
+    "term": {
+      "position.keyword": "Software Engineer"
+    }
+  }
+}
+-----------------------------------------------
+GET /employees_index/_search
+{
+  "query": {
+    "range": {
+      "hire_date": {
+        "gte": "2022-01-01",
+        "lte": "2022-02-15"
+      }
+    }
+  }
+}
+------------------------------------------
+GET /employees_index/_search
+{
+  "size": 0,
+  "aggs": {
+    "positions_count": {
+      "terms": {
+        "field": "position.keyword"
+      }
+    }
+  }
+}
